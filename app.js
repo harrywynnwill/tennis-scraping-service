@@ -15,10 +15,10 @@ nats.subscribe('eventID', function (msg) {
     eventID = msg
 })
 
-const URL = ` https://ips.betfair.com/inplayservice/v1/scores?regionCode=UK&_ak=dyMLAanpRyIsjkpJ&alt=json&locale=en_GB&eventIds=28891010%2C28894608%2C28892832&ts=1536514210189&xsrftoken=ff220691-b430-11e8-8e56-ecf4bbd60988`
+const URL = `https://ips.betfair.com/inplayservice/v1/scores?regionCode=UK&_ak=dyMLAanpRyIsjkpJ&alt=json&locale=en_GB&eventIds=28893913%2C28893918%2C28893913&ts=1536595908118&xsrftoken=6c1f8131-b41f-11e8-b56c-a0369f0e8798`
 let score = {
-    home: "",
-    away: ""
+    home: "0",
+    away: "0"
 }
 
 async function getScore(score) {
@@ -27,7 +27,7 @@ async function getScore(score) {
     return await axios.get(URL)
         .then(response => {
             let presentScore = response.data[0]
-                // console.log(presentScore)
+            console.log(presentScore)
             publishScoreUpdate(score, presentScore)
 
         })
@@ -43,13 +43,16 @@ function publishScoreUpdate(pastScore, presentScore) {
     console.log("present away", presentScoreAway)
     if (hasPlayerWon(pastScore.home, presentScoreHome)) {
         console.log("home Player Wins")
-    } else if (hasPlayerWon(pastScore.away, presentScoreAway)) {
-        console.log("away Player Wins")
+        nats.publish('home-point', presentScoreHome)
     }
+    if (hasPlayerWon(pastScore.away, presentScoreAway)) {
+        console.log("away Player Wins")
+        nats.publish('away-point', presentScoreAway)
+
+    }
+    //Update score object to latest score.
     score.home = presentScore.score.home.score
     score.away = presentScore.score.away.score
-
-
 }
 
 function pollScore() {
