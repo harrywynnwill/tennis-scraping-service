@@ -7,3 +7,7 @@
 start the NATS server
 
 `gnatsd`
+
+`npm intall`
+
+`node app.js`

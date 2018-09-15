@@ -14,10 +14,10 @@ nats.subscribe('foo', function (msg) {
 let eventID
 
 
-  // nats.subscribe('eventID', function (msg) {
-  //   console.log('Received eventID: ' + msg);
-  //   eventID = msg
-  // })
+  nats.subscribe('eventID', function (msg) {
+    console.log('Received eventID: ' + msg);
+    eventID = msg
+  })
 
 
 module.exports = {
