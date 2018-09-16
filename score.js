@@ -10,6 +10,9 @@ const Score = db.sequelize.define('score', {
     },
     eventID: {
         type: Sequelize.INTEGER
+    },
+    jsonObject:{
+        type: Sequelize.JSON
     }
 });
 

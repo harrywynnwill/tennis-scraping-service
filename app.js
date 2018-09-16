@@ -32,16 +32,20 @@ let score = {
 }
 
 async function getScore(score) {
-    let url = `https://ips.betfair.com/inplayservice/v1/scores?regionCode=UK&_ak=dyMLAanpRyIsjkpJ&alt=json&locale=en_GB&eventIds=${eventID}&ts=1536595908118&xsrftoken=6c1f8131-b41f-11e8-b56c-a0369f0e8798`
-    return await axios.get(url)
-        .then(response => {
-            let presentScore = response.data[0]
-            publishScoreUpdate(score, presentScore)
-        })
-        .catch(error => {
-            console.log(error);
-        });
+    console.log(Number(eventID))
+        if (eventID && score) {
+        let url = `https://ips.betfair.com/inplayservice/v1/scores?regionCode=UK&_ak=dyMLAanpRyIsjkpJ&alt=json&locale=en_GB&eventIds=${eventID}&ts=1536595908118&xsrftoken=6c1f8131-b41f-11e8-b56c-a0369f0e8798`
+        return await axios.get(url)
+            .then(response => {
+                let presentScore = response.data[0]
+                publishScoreUpdate(score, presentScore)
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
 }
+
 
 function publishScoreUpdate(pastScore, presentScore) {
 
@@ -63,7 +67,8 @@ function publishScoreUpdate(pastScore, presentScore) {
         Score.create({
             home: presentScore.score.home.score,
             away: presentScore.score.away.score,
-            eventID: Number(eventID)
+            eventID: Number(eventID),
+            jsonObject: presentScore.score
         }).then(score => {
             // you can now access the newly created Score via the variable Score
         })
@@ -74,7 +79,8 @@ function publishScoreUpdate(pastScore, presentScore) {
         Score.create({
             home: presentScore.score.home.score,
             away: presentScore.score.away.score,
-            eventID: Number(eventID)
+            eventID: Number(eventID),
+            jsonObject: presentScore.score
         }).then(score => {
             // you can now access the newly created task via the variable task
         })
