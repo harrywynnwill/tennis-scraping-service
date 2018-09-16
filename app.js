@@ -63,6 +63,7 @@ function publishScoreUpdate(pastScore, presentScore) {
         Score.create({
             home: presentScore.score.home.score,
             away: presentScore.score.away.score,
+            eventID: Number(eventID)
         }).then(score => {
             // you can now access the newly created Score via the variable Score
         })
@@ -72,7 +73,8 @@ function publishScoreUpdate(pastScore, presentScore) {
         nats.publish('away-point', presentScore.score.away.score)
         Score.create({
             home: presentScore.score.home.score,
-            away: presentScore.score.away.score
+            away: presentScore.score.away.score,
+            eventID: Number(eventID)
         }).then(score => {
             // you can now access the newly created task via the variable task
         })
