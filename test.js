@@ -1,7 +1,6 @@
-var expect = require('chai').expect;
-var {
-    hasPlayerWon
-} = require('./scoreLogic');
+const expect = require('chai').expect;
+const {hasPlayerWon} = require('./scoreLogic');
+const {transform} = require('./transform');
 
 beforeEach(function () {
     //   debugger
@@ -9,7 +8,7 @@ beforeEach(function () {
 })
 
 // 1. ARRANGE
-var score30_40 = {
+const score30_40 = {
     home: {
         name: 'Dalila Jakupovic',
         score: '30',
@@ -45,7 +44,7 @@ var score30_40 = {
         serviceBreaks: 1
     }
 }
-var score40_40 = {
+const score40_40 = {
     home: {
         name: 'Dalila Jakupovic',
         score: '40',
@@ -81,7 +80,7 @@ var score40_40 = {
         serviceBreaks: 1
     }
 }
-var scoreAv_40 = {
+const scoreAv_40 = {
     home: {
         name: 'Dalila Jakupovic',
         score: 'Av',
@@ -117,7 +116,7 @@ var scoreAv_40 = {
         serviceBreaks: 1
     }
 }
-var score40_Av = {
+const score40_Av = {
     home: {
         name: 'Dalila Jakupovic',
         score: '40',
@@ -153,7 +152,7 @@ var score40_Av = {
         serviceBreaks: 1
     }
 }
-var scorePlayerOneGame0_0 = {
+const scorePlayerOneGame0_0 = {
     home: {
         name: 'Dalila Jakupovic',
         score: '0',
@@ -189,7 +188,7 @@ var scorePlayerOneGame0_0 = {
         serviceBreaks: 1
     }
 }
-var score40_0_5_2_0_0 = {
+const score40_0_5_2_0_0 = {
     home: {
         name: 'Dalila Jakupovic',
         score: '40',
@@ -225,7 +224,7 @@ var score40_0_5_2_0_0 = {
         serviceBreaks: 1
     }
 }
-var score0_0_0_0_1_0 = {
+const score0_0_0_0_1_0 = {
     home: {
         name: 'Dalila Jakupovic',
         score: '0',
@@ -265,43 +264,43 @@ var score0_0_0_0_1_0 = {
 describe('hasPlayerWon()', () => {
     it('should return false if away player loses', () => {
         // 2. ACT
-        var awayPlayerLoss = hasPlayerWon(score30_40.away, score40_40.away);
+        const awayPlayerLoss = hasPlayerWon(score30_40.away, score40_40.away);
         // 3. ASSERT
         expect(awayPlayerLoss).to.be.equal(false);
     });
 
     it('should return true if home player wins', () => {
         // 2. ACT
-        var homePlayerWin = hasPlayerWon(score30_40.home, score40_40.home);
+        const homePlayerWin = hasPlayerWon(score30_40.home, score40_40.home);
         // 3. ASSERT
         expect(homePlayerWin).to.be.equal(true);
     });
 
     it('should return true if home player wins deuce', () => {
         // 2. ACT
-        var homePlayerWinAv = hasPlayerWon(score40_40.home, scoreAv_40.home)
+        const homePlayerWinAv = hasPlayerWon(score40_40.home, scoreAv_40.home)
         // 3. ASSERT
         expect(homePlayerWinAv).to.be.equal(true);
     });
 
     it('should return false if home player loses deuce', () => {
         // 2. ACT
-        var homePlayerLossDeuce = hasPlayerWon(scoreAv_40.home, score40_40.home);
+        const homePlayerLossDeuce = hasPlayerWon(scoreAv_40.home, score40_40.home);
         // 3. ASSERT
         expect(homePlayerLossDeuce).to.be.equal(false);
     });
 
     it('should return true if home player wins game', () => {
         // 2. ACT
-        var homePlayerWinsGame = hasPlayerWon(scoreAv_40.home, scorePlayerOneGame0_0.home);
+        const homePlayerWinsGame = hasPlayerWon(scoreAv_40.home, scorePlayerOneGame0_0.home);
         // 3. ASSERT
         expect(homePlayerWinsGame).to.be.equal(true);
     });
 
     it('should return false if away player loses game', () => {
         // 2. ACT
-        var awayPlayerLosesGame = hasPlayerWon(scoreAv_40.away, scorePlayerOneGame0_0.away);
-        // var homePlayerWinsSet = hasPlayerWon(score40_0_5_2_0_0.home, score0_0_0_0_1_0.home);
+        const awayPlayerLosesGame = hasPlayerWon(scoreAv_40.away, scorePlayerOneGame0_0.away);
+        // const homePlayerWinsSet = hasPlayerWon(score40_0_5_2_0_0.home, score0_0_0_0_1_0.home);
         // 3. ASSERT
         expect(awayPlayerLosesGame).to.be.equal(false);
         // expect(homePlayerWinsSet).to.be.equal(true);
@@ -310,8 +309,60 @@ describe('hasPlayerWon()', () => {
     it('should return true if home player wins set', () => {
         debugger
         // 2. ACT
-        var homePlayerWinsSet = hasPlayerWon(score40_0_5_2_0_0.home, score0_0_0_0_1_0.home);
+        const homePlayerWinsSet = hasPlayerWon(score40_0_5_2_0_0.home, score0_0_0_0_1_0.home);
         // 3. ASSERT
         expect(homePlayerWinsSet).to.be.equal(true);
+    });
+});
+
+const scoreAPIModel = {
+    values: {
+        player2PointsWon: '0',
+        player1: '2422070',
+        player2: '2309522',
+        bestOfSets: '3',
+        player1SetScores: '3,0',
+        player2GamesWon: '0',
+        player1GamesWon: '0',
+        player1SetsWon: '0',
+        player2SetsWon: '1',
+        player2SetScores: '6,0',
+        isLive: '1',
+        player1PointsWon: '30',
+        eventTypeStatus: 'inPlay',
+        startDate: '2018-10-07T08:14:00.000Z',
+        tieBreakType: '0'
+    }
+}
+
+const scraperModel = {
+    home: {
+        score: '30',
+        games: '0',
+        sets: '0',
+        setScore: '3,0'
+    },
+    away: {
+        score: '0',
+        games: '0',
+        sets: '1',
+        setScore: '6,0'
+    },
+    meta: {
+        bestOfSets: '3',
+        tieBreakType: '0',
+        eventTypeStatus: 'inPlay',
+        player1: '2422070',
+        player2: '2309522',
+        startDate: '2018-10-07T08:14:00.000Z',
+    }
+}
+
+describe('transformToScraperModel()', () => {
+    it('it transforms the incoming data to home and away objects', () => {
+        // 2. ACT
+        const transformedAPIModel = transform(scoreAPIModel);
+        // 3. ASSERT
+        expect(transformedAPIModel).to.deep.equal(scraperModel);
     });
 });
