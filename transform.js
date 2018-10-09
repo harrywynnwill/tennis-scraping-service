@@ -1,5 +1,4 @@
 function transform(score) {
-    console.log("transforming score")
     return {
         home: {
             score: score.values.player1PointsWon,

@@ -2,6 +2,9 @@ const db = require('./db.js')
 const Sequelize = require('sequelize');
 
 const Score = db.sequelize.define('score', {
+    pointResult: {
+        type: Sequelize.STRING
+    },
     homePlayer: {
         type: Sequelize.INTEGER
     },
@@ -29,12 +32,10 @@ const Score = db.sequelize.define('score', {
     eventID: {
         type: Sequelize.INTEGER
     },
-    jsonObject:{
+    jsonObject: {
         type: Sequelize.JSON
     }
 });
 
-Score.sync({
-    force: true
-})
+Score.sync()
 module.exports = Score
